@@ -1,0 +1,41 @@
+<mat-card class="menu-card">
+
+	<mat-toolbar class="menu-toolbar">
+		<mat-toolbar-row>
+			<span>В избранное добавлено: {{favoriteFilmsCount}} элементов</span> &nbsp;
+			<button mat-raised-button (click)="directUpdateChildren()">Один Дочерний компонент</button> &nbsp;
+			<button mat-raised-button (click)="directUpdateAllChildren()">Все Дочерние компоненты</button>
+			<button mat-raised-button (click)="count()">++</button>
+			<span class="example-spacer"></span>
+			<div>
+				<app-search (searchEmitter)="doSearch($event)"></app-search>
+			</div>
+			<span class="example-spacer"></span>
+			<div>
+				<mat-form-field>
+					<mat-select placeholder="Фильмы/Актеры" [(ngModel)]="sortOption" (selectionChange)="choseWhatToShow()">
+						<mat-option *ngFor="let option of sortOptions" [value]="option.value">
+							{{option.description}}
+						</mat-option>
+						<!-- <mat-option value="default">Default</mat-option> -->
+					</mat-select>
+				</mat-form-field>
+			</div>
+		</mat-toolbar-row>
+	</mat-toolbar>
+
+</mat-card>
+
+<mat-grid-list cols="3" rowHeight="840px">
+	<mat-grid-tile colspan="1" *ngFor="let item of items">
+		<app-film-item *ngIf="sortOption == 'Films'" [film]="item" [counter]="counter" (star)="makeStar($event)" [imgPath]="imgPath"></app-film-item>
+		<app-actor-item *ngIf="sortOption == 'Actors'" [actor]="item" [counter]="counter" (star)="makeStar($event)" [imgPath]="imgPath"></app-actor-item>
+	</mat-grid-tile>
+</mat-grid-list>
+
+
+<div class="main-container">
+	<div class="fixer-container">
+		<button mat-raised-button color="primary" [disabled]="searching" (click)="setNextPage()">Загрузить еще</button>
+	</div>
+</div>

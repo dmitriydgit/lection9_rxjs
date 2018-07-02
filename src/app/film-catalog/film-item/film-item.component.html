@@ -1,0 +1,54 @@
+<!-- 
+adult:false
+backdrop_path:"/gBmrsugfWpiXRh13Vo3j0WW55qD.jpg"
+genre_ids:(3) [28, 12, 878]
+id:351286
+original_language:"en"
+original_title:"Jurassic World: Fallen Kingdom"
+overview:"Оуэн и Клэр предпринимают кампанию по спасению динозавров, которые оказались на острове в смертельной опасности."
+popularity:281.075645
+poster_path:"/4VEkflsi7zQmBN6vNpihNrmnRzj.jpg"
+release_date:"2018-06-06"
+title:"Мир Юрского периода 2"
+video:false
+vote_average:6.7
+vote_count:1246 -->
+<mat-card class="film-card">
+	<div class="card-top">
+		<div mat-card-avatar class="film-header-image"></div>
+		<div class="card-header">
+			<div class="film-title" #name>{{film.title}}</div>
+			<div>Release date: {{formatDate(film.release_date)}}</div>
+			<div>Rate: {{formatPlr(film.popularity)}}</div>
+		</div>
+	</div>
+	<img mat-card-image src="{{imgPath + film.poster_path}}" alt="{{film.title}}">
+	<mat-card-content>
+		<p class="film-overwiev">
+			{{film.overview | slice:0:120}}...
+		</p>
+	</mat-card-content>
+	<mat-card-actions>
+		<button mat-icon-button color="primary">
+			<i class="material-icons">
+				play_arrow
+			</i>
+		</button>
+		<button mat-icon-button color="primary">
+			<i class="material-icons">
+				menu
+			</i>
+		</button>
+		<button *ngIf="!film.isFavorite;else fab" mat-icon-button color="primary" (click)="startFilm(film)">
+			<i class="material-icons">star</i>
+		</button>
+	</mat-card-actions>
+</mat-card>
+
+<ng-template #fab>
+	<button mat-icon-button (click)="startFilm(film)" color="accent">
+		<i class="material-icons">
+			favorite
+		</i>
+	</button>
+</ng-template>
