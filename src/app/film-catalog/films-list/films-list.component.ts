@@ -5,6 +5,10 @@ import { SortOption } from '../../sort-option';
 import { FilmItemComponent } from '../film-item/film-item.component';
 import { ActorItemComponent } from '../actor-item/actor-item.component';
 import { SearchComponent } from '../search/search.component';
+import { NgProgress } from 'ngx-progressbar';
+import { Http } from '@angular/http';
+
+
 
 @Component({
 	selector: '.films',
@@ -21,6 +25,7 @@ export class FilmsListComponent implements OnInit {
 	searchString: string;
 	searching: boolean = false;
 	searchingArray: any;
+	loading: boolean = false;
 
 	sortOptions = [
 		{ value: 'Films', description: 'Фильмы' },
@@ -34,13 +39,18 @@ export class FilmsListComponent implements OnInit {
 	@ViewChildren(FilmItemComponent) films: QueryList<FilmItemComponent>;
 
 
-	constructor(public filmsService: FilmService) {
+	constructor(public filmsService: FilmService, public progress: NgProgress, private http: Http) {
 	}
 
 	ngOnInit() {
 		console.log("Hook Parent, Инициализация родительского компонента")
-		//console.log(this.imgPath)
-		this.getFilms()
+		this.loading = true;
+
+		this.progress.start();
+		setTimeout(() => {
+			this.getFilms();
+		}, 2000);
+
 	}
 
 	ngAfterViewInit() {
@@ -68,6 +78,10 @@ export class FilmsListComponent implements OnInit {
 		this.filmsService.getPopularFilms(this.counter).subscribe(
 			(filmList: any) => {
 				//console.log(`${this.filmsService.midImgPath}${filmList.results[2].poster_path}`)
+
+				this.loading = false;
+				this.progress.done();
+
 				this.items = [...filmList.results];
 				this.searchingArray = [...filmList.results];
 			},
@@ -80,6 +94,8 @@ export class FilmsListComponent implements OnInit {
 		this.filmsService.getPopularActors(this.counter).subscribe(
 			(actorsList: any) => {
 				//console.log(`${this.filmsService.midImgPath}${actorsList.results[2].poster_path}`)
+				this.loading = false;
+				this.progress.done();
 				this.items = [...actorsList.results];
 				this.searchingArray = [...actorsList.results];
 				console.log(this.searchingArray)
@@ -93,11 +109,20 @@ export class FilmsListComponent implements OnInit {
 		console.log(this.sortOption)
 		if (this.sortOption === "Films") {
 			this.items = [];
-			this.getFilms();
+			this.loading = true;
+			this.progress.start();
+			setTimeout(() => {
+				this.getFilms();
+			}, 1000);
+
 		}
 		if (this.sortOption === "Actors") {
 			this.items = [];
-			this.getActors();
+			this.loading = true;
+			this.progress.start();
+			setTimeout(() => {
+				this.getActors();
+			}, 1000);
 
 		}
 	}
@@ -114,6 +139,7 @@ export class FilmsListComponent implements OnInit {
 	}
 
 	doSearch(searchString) {
+		this.searching = false;
 		if (searchString.length !== 0 && searchString.length > 2) {
 			this.searching = true;
 			this.items = [...this.searchingArray.filter(el => {
@@ -124,7 +150,6 @@ export class FilmsListComponent implements OnInit {
 		if (searchString.length == 0) {
 			this.searching = false;
 			this.items = [...this.searchingArray];
-			//this.choseWhatToShow();
 		}
 	}
 	// sortFilmCards() {

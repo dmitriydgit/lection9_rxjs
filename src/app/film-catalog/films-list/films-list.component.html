@@ -21,10 +21,19 @@
 					</mat-select>
 				</mat-form-field>
 			</div>
+
+
+
 		</mat-toolbar-row>
 	</mat-toolbar>
-
 </mat-card>
+
+<ng-progress [positionUsing]="'translate'" [direction]="'leftToRightIncreased'" [color]="'#ff0000'" [trickleSpeed]="300"
+ [showSpinner]="false" [thick]="true" [ease]="'easeInSine'"></ng-progress>
+
+<mat-spinner *ngIf="loading" class="spinner" color="accent"></mat-spinner>
+
+
 
 <mat-grid-list cols="3" rowHeight="840px">
 	<mat-grid-tile colspan="1" *ngFor="let item of items">

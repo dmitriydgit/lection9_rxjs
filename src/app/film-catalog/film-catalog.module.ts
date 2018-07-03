@@ -14,7 +14,11 @@ import { ActorItemComponent } from './actor-item/actor-item.component';
 import { SearchComponent } from './search/search.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material';
+import { MatInputModule, MatProgressSpinnerModule } from '@angular/material';
+import { HttpModule } from '@angular/http';
+import { NgProgressModule } from 'ngx-progressbar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 @NgModule({
@@ -29,7 +33,11 @@ import { MatInputModule } from '@angular/material';
 		HttpClientModule,
 		MatIconModule,
 		MatFormFieldModule,
-		MatInputModule
+		MatInputModule,
+		NgProgressModule,
+		HttpModule,
+		MatProgressSpinnerModule,
+		BrowserAnimationsModule
 
 	],
 	declarations: [

@@ -29,6 +29,8 @@ export class FilmService {
 	) { }
 
 	getPopularFilms(page?: number) {
+
+
 		return this.http.get(`${this.movieUrl}/popular?page=${page}${this.paramsFilms}`)
 	}
 

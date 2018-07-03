@@ -13,6 +13,8 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { MatTabsModule, MatFormField, MatFormFieldModule } from '@angular/material';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NgProgressModule } from 'ngx-progressbar';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
 	declarations: [
@@ -30,7 +32,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 		MatCardModule,
 		MatTabsModule,
 		MatFormFieldModule,
-		MatProgressSpinnerModule
+		MatProgressSpinnerModule,
+		NgProgressModule,
+		HttpModule,
+		MatProgressSpinnerModule,
+		BrowserAnimationsModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

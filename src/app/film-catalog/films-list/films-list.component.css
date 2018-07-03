@@ -28,3 +28,8 @@ mat-grid-list {
   position: relative;
   left: -50%;
 }
+
+.spinner{
+	margin:100px auto;
+	
+}
