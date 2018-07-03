@@ -152,6 +152,7 @@ export class FilmsListComponent implements OnInit {
 			this.items = [...this.searchingArray];
 		}
 	}
+
 	// sortFilmCards() {
 	// 	this.filmsData = (this.sortOption === "default")
 	// 		? this.getFilms()
