@@ -11,6 +11,7 @@ export class FilmItemComponent implements OnInit {
 	@Input() counter: number;
 	@Input() imgPath: string;
 	@Output('star') starEmitter = new EventEmitter<Film>();
+	@Output('book') bookEmitter = new EventEmitter<Film>();
 
 	constructor(private hostElement: ElementRef) {
 	}
@@ -42,9 +43,13 @@ export class FilmItemComponent implements OnInit {
 	}
 
 
-	startFilm(film: Film) {
+	starFilm(film: Film) {
 		this.starEmitter.emit(film);
 	}
+	bookFilm(film: Film) {
+		this.bookEmitter.emit(film);
+	}
+
 
 	showFilmInfo() {
 		console.log(this.film);

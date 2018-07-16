@@ -34,21 +34,31 @@ vote_count:1246 -->
 				play_arrow
 			</i>
 		</button>
-		<button mat-icon-button color="primary">
-			<i class="material-icons">
-				menu
-			</i>
-		</button>
-		<button *ngIf="!film.isFavorite;else fab" mat-icon-button color="primary" (click)="startFilm(film)">
+
+		<button *ngIf="!film.isFavorite;else fab" mat-icon-button color="primary" (click)="starFilm(film)">
 			<i class="material-icons">star</i>
+		</button>
+
+		<button *ngIf="!film.isBookmark;else book" mat-icon-button color="primary" (click)="bookFilm(film)">
+			<i class="material-icons">
+				bookmark
+			</i>
 		</button>
 	</mat-card-actions>
 </mat-card>
 
 <ng-template #fab>
-	<button mat-icon-button (click)="startFilm(film)" color="accent">
+	<button mat-icon-button (click)="starFilm(film)" color="accent">
 		<i class="material-icons">
 			favorite
+		</i>
+	</button>
+</ng-template>
+
+<ng-template #book>
+	<button mat-icon-button (click)="bookFilm(film)" color="accent">
+		<i class="material-icons">
+			book
 		</i>
 	</button>
 </ng-template>
