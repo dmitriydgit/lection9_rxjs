@@ -1,6 +1,7 @@
 
 :host {
-  max-width: 380px;
+	max-width: 360px;
+	
 }
 
 .film-header-image {
@@ -30,4 +31,8 @@
 
 .film-overwiev{
 	font-size: 16px;
+}
+.film-card{
+	width: 400px;
+	height: 760px;
 }

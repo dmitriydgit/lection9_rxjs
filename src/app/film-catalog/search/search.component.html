@@ -1,5 +1,5 @@
 <mat-form-field class="example-form-field">
-	<input matInput type="text" placeholder="Search:" [(ngModel)]="value" (input)="searchFilms()" />
+	<input matInput type="text" placeholder="Поиск:" [(ngModel)]="value" (input)="searchFilms()" />
 	<button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''" (click)="searchFilms()">
 		<mat-icon>close</mat-icon>
 	</button>

@@ -1,0 +1,32 @@
+<!-- <div class="center">
+	<mat-form-field class="example-form-field ">
+		<input matInput type="text" placeholder="Search:" [(ngModel)]="value" (input)="searchFilmsApi(value)" />
+		<button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''" (click)="searchFilmsApi(value)">
+			<mat-icon>close</mat-icon>
+		</button>
+
+	</mat-form-field>
+</div> -->
+
+<div class="center">
+	<mat-form-field>
+		<mat-select placeholder="Фильмы/Актеры" [(ngModel)]="sortOption" (selectionChange)="choseWhatToShow()">
+			<mat-option *ngFor="let option of sortOptions" [value]="option.value">
+				{{option.description}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<app-search (searchEmitter)="doSearch($event)"></app-search>
+
+</div>
+
+<mat-grid-list cols="3" rowHeight="840px">
+	<mat-grid-tile colspan="1" *ngFor="let item of items">
+		<app-film-item *ngIf="sortOption == 'Films'" [film]="item" [counter]="counter" (star)="makeFavorite($event)" (book)="makeBookmark($event)"
+		 [imgPath]="imgPath"></app-film-item>
+		<app-actor-item *ngIf="sortOption == 'Actors'" [actor]="item" [counter]="counter" (star)="makeStar($event)" [imgPath]="imgPath"></app-actor-item>
+	</mat-grid-tile>
+</mat-grid-list>
+
+<!-- *ngIf="sortOption == 'Films'" -->

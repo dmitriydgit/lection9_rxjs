@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainComponent } from './main/main.component';
 import { FilmsListComponent } from './films-list/films-list.component';
+import { SearchAPIComponent } from './searchByAPI/searchAPI.component';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,6 +19,13 @@ import { MatInputModule, MatProgressSpinnerModule } from '@angular/material';
 import { HttpModule } from '@angular/http';
 import { NgProgressModule } from 'ngx-progressbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+//import { constantes, Constantes } from './config';
+import { FilmService } from './film.service';
+import { Constantes, constantes } from './config';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { PaginatorComponent } from './paginator/paginator.component';
+
+
 
 
 
@@ -37,7 +45,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		NgProgressModule,
 		HttpModule,
 		MatProgressSpinnerModule,
-		BrowserAnimationsModule
+		BrowserAnimationsModule,
+		MatPaginatorModule
+
 
 	],
 	declarations: [
@@ -45,7 +55,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		FilmsListComponent,
 		FilmItemComponent,
 		ActorItemComponent,
-		SearchComponent
+		SearchComponent,
+		SearchAPIComponent,
+		PaginatorComponent,
+		PaginatorComponent
+
+	],
+	providers: [
+		FilmService,
+		{ provide: Constantes, useValue: constantes }
 	]
 })
 export class FilmCatalogModule {

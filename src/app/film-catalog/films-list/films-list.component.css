@@ -33,3 +33,10 @@ mat-grid-list {
 	margin:100px auto;
 	
 }
+
+.paginator{
+	display: flex; 
+	flex-direction: row;
+	justify-content: flex-end;
+	margin-right: 10%;
+}

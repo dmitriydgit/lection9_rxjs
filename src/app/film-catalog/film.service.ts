@@ -16,6 +16,7 @@ export class FilmService {
 	personUrl: string = `${this.apiUrl}/person`
 	paramsFilms: string = `&api_key=${this.apiKey}&language=ru-RU`
 	paramsActors: string = `&api_key=${this.apiKey}&language=ru-RU`
+	paramsFilmsSearch: string = `?api_key=${this.apiKey}&language=ru-RU`
 
 	imgPath: string = 'https://image.tmdb.org/t/p'
 	midImgPath: string = `${this.imgPath}/w500`
@@ -29,8 +30,6 @@ export class FilmService {
 	) { }
 
 	getPopularFilms(page?: number) {
-
-
 		return this.http.get(`${this.movieUrl}/popular?page=${page}${this.paramsFilms}`)
 	}
 
@@ -38,7 +37,23 @@ export class FilmService {
 		return this.http.get(`${this.personUrl}/popular?page=${page}${this.paramsActors}`)
 	}
 
+	searchFilms(srchStr: string) {
+		console.log("searching")
+		return this.http.get(`${this.searchUrl}/movie${this.paramsFilmsSearch}&query=${srchStr}`)
+	}
+
+	searchActors(srchStr: string) {
+		console.log("searching")
+		return this.http.get(`${this.searchUrl}/person${this.paramsFilmsSearch}&query=${srchStr}`)
+	}
+
 }
+
+//https://api.themoviedb.org/3/movie/search/movie?api_key=0994e7679a856150aadcecf7de489bce&language=ru-RU&query=%D1%82%D0%BE%D1%80
+
+//https://api.themoviedb.org/3/search/movie?api_key=0994e7679a856150aadcecf7de489bce&language=ru-RU&query=тор&page=1&include_adult=false
+//https://api.themoviedb.org/3/search/movie?api_key=0994e7679a856150aadcecf7de489bce&language=en-US&query=tor&page=1&include_adult=false
+//https://api.themoviedb.org/3/movie/popular?page=1&api_key=0994e7679a856150aadcecf7de489bce&language=ru-RU`
 
 
 // getFilms() {

@@ -22,18 +22,18 @@ vote_count:1246 -->
 			<div>Rate: {{formatPlr(film.popularity)}}</div>
 		</div>
 	</div>
-	<img mat-card-image src="{{imgPath + film.poster_path}}" alt="{{film.title}}">
+	<img mat-card-image src="{{imgPath + film.poster_path}}" alt="{{film.title}}" onerror="this.onerror=null;this.src='../../../assets/4.jpg'">
 	<mat-card-content>
 		<p class="film-overwiev">
 			{{film.overview | slice:0:120}}...
 		</p>
 	</mat-card-content>
 	<mat-card-actions>
-		<button mat-icon-button color="primary">
+		<!-- <button mat-icon-button color="primary">
 			<i class="material-icons">
 				play_arrow
 			</i>
-		</button>
+		</button> -->
 
 		<button *ngIf="!film.isFavorite;else fab" mat-icon-button color="primary" (click)="starFilm(film)">
 			<i class="material-icons">star</i>
