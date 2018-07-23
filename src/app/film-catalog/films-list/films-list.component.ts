@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, ViewChildren, QueryList, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList, Inject } from '@angular/core';
 import { FilmService } from '../film.service';
 import { BookAndFavService } from '../bookAndFav.service';
 import { Film } from '../../film';
@@ -8,8 +8,7 @@ import { FilmItemComponent } from '../film-item/film-item.component';
 import { ActorItemComponent } from '../actor-item/actor-item.component';
 import { SearchComponent } from '../search/search.component';
 import { NgProgress } from 'ngx-progressbar';
-import { Http } from '@angular/http';
-import { Constantes } from '../config';
+import { DEFAULT_SETTINGS } from '../config';
 
 
 
@@ -54,7 +53,7 @@ export class FilmsListComponent implements OnInit {
 	@ViewChildren(FilmItemComponent) films: QueryList<FilmItemComponent>;
 
 	constructor(
-		//@Inject(Constantes)
+		@Inject(DEFAULT_SETTINGS) private settings: any,
 		public filmsService: FilmService,
 		public bookAndFavService: BookAndFavService,
 		public progress: NgProgress
@@ -63,7 +62,7 @@ export class FilmsListComponent implements OnInit {
 
 	ngOnInit() {
 		this.loading = true;
-
+		console.log(this.settings);
 		this.progress.start();
 		setTimeout(() => {
 			this.getFilms(this.counter);

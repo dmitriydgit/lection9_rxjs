@@ -8,4 +8,4 @@ export const constantes = {
 	}
 }
 
-export const Constantes = new InjectionToken<FilmService>('qwerty');
+export const DEFAULT_SETTINGS = new InjectionToken<FilmService>('qwerty');

@@ -21,7 +21,7 @@ import { NgProgressModule } from 'ngx-progressbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //import { constantes, Constantes } from './config';
 import { FilmService } from './film.service';
-import { Constantes, constantes } from './config';
+import { DEFAULT_SETTINGS, constantes } from './config';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { PaginatorComponent } from './paginator/paginator.component';
 
@@ -63,7 +63,7 @@ import { PaginatorComponent } from './paginator/paginator.component';
 	],
 	providers: [
 		FilmService,
-		{ provide: Constantes, useValue: constantes }
+		{ provide: DEFAULT_SETTINGS, useValue: constantes }
 	]
 })
 export class FilmCatalogModule {

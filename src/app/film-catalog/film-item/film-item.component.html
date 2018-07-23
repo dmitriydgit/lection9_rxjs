@@ -22,7 +22,7 @@ vote_count:1246 -->
 			<div>Rate: {{formatPlr(film.popularity)}}</div>
 		</div>
 	</div>
-	<img mat-card-image src="{{imgPath + film.poster_path}}" alt="{{film.title}}" onerror="this.onerror=null;this.src='../../../assets/4.jpg'">
+	<img mat-card-image src="{{imgPath + film.poster_path}}" alt="{{film.title}}" onerror="this.onerror=null; this.src='../../../assets/4.jpg'">
 	<mat-card-content>
 		<p class="film-overwiev">
 			{{film.overview | slice:0:120}}...
