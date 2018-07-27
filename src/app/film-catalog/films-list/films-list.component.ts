@@ -66,7 +66,7 @@ export class FilmsListComponent implements OnInit {
 		this.progress.start();
 		setTimeout(() => {
 			this.getFilms(this.counter);
-		}, 1500);
+		}, 1000);
 	}
 
 	getFilms(page: number) {

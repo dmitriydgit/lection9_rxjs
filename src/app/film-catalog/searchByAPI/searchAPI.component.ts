@@ -3,6 +3,8 @@ import { FilmService } from '../film.service';
 import { BookAndFavService } from '../bookAndFav.service';
 import { Film } from '../../film';
 import { User } from '../../user';
+import { Observable, of, from, fromEvent, range } from 'rxjs';
+import { pluck, map, findIndex, filter, defaultIfEmpty, tap, take } from 'rxjs/operators';
 
 
 @Component({
@@ -42,12 +44,12 @@ export class SearchAPIComponent implements OnInit {
 			console.log(this.sortOption)
 			if (this.sortOption === 'Films') {
 				this.filmsService.searchFilms(searchString)
-				.subscribe(
-					(filmList: any) => {
-						this.items = [...filmList.results];
-						this.getFavarites();
-						this.getBookmarks();
-					})
+					.subscribe(
+						(filmList: any) => {
+							this.items = [...filmList.results];
+							this.getFavarites();
+							this.getBookmarks();
+						})
 			}
 			if (this.sortOption === 'Actors') {
 				this.filmsService.searchActors(searchString).subscribe(
@@ -120,6 +122,9 @@ export class SearchAPIComponent implements OnInit {
 		if (this.sortOption === "Actors") {
 			this.items = [];
 		}
+
+
+
 	}
 
 
@@ -137,6 +142,68 @@ export class SearchAPIComponent implements OnInit {
 	// 		this.items = [...this.searchingArray];
 	// 	}
 	// }
+
+
+
+	// observable = Observable.create(function (observer) {
+	// 	// принимает как аргумент наблюдателя (observer)
+	// 	observer.next('Hello');  // синхронная передача данных в поток
+	// 	setTimeout(() => {
+	// 		observer.next('World'); // асинхронная передача данных в поток
+	// 		observer.complete(); // завершение потока
+	// 	}, 2 * 1000);
+	// });
+
+	//observable = of(1, 2, 'Hello');
+
+	// observable = fromEvent(document.querySelector('button'), 'click');
+	//observable = range(3, 4);
+
+	// observable = from([
+	// 	{ id: 1, user: { name: 'Alex', lname: 'Smith' } },
+	// 	{ id: 2, user: { name: 'John', lname: 'Doe' } }
+	// ])
+	// 	.pipe(
+	// 		// map(element => element.user.name),
+	// 		pluck('user', 'lname'),
+	// 		map(name => name.toString().toUpperCase())
+	// 	).subscribe(
+	// 		word => console.log(word), // при next()
+	// 		error => console.log(error), // при ошибке
+	// 		() => console.log('Complete.') // при завершение
+	// 	);
+
+	// observable = from(['Hello', 'World', 3, 4, 5])
+	// 	.pipe(findIndex(x => x === 'World'))
+	// 	.subscribe(x => console.log(x));
+
+	// subscription = this.observable.subscribe(
+	// 	word => console.log(word), // при next()
+	// 	error => console.log(error), // при ошибке
+	// 	() => console.log('Complete.') // при завершение
+	// );
+
+
+	// observable = range(1, 7)
+	// 	.pipe(filter(x => x % 2 === 0))
+	// 	.subscribe(x => console.log(x))
+
+
+	// observable = of() // empty value
+	// .pipe(defaultIfEmpty('and now not empty'))
+	// .subscribe(x => console.log(x)); // and now not empty
+
+
+	// observable = from([1, 2, 3])
+	// 	.pipe(tap(x => console.log("from tap", x * x))) // 1, 4, 9 - side effect
+	// 	.subscribe(x => console.log("from subscription", x)); // 1, 2, 3 - original value
+
+
+
+	observable = from([1, 2, 3, 4, 5, 6, 7])
+		.pipe(take(3))
+		.subscribe(x => console.log(x)); // 1, 2, 3
+
 
 
 

@@ -57,7 +57,6 @@ import { PaginatorComponent } from './paginator/paginator.component';
 		ActorItemComponent,
 		SearchComponent,
 		SearchAPIComponent,
-		PaginatorComponent,
 		PaginatorComponent
 
 	],
