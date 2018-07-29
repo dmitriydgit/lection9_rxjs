@@ -1,37 +1,23 @@
+<!-- окно поиска -->
+
 <mat-card class="menu-card">
 	<mat-toolbar class="menu-toolbar">
 		<mat-toolbar-row>
-			<!-- <span>В избранное добавлено: {{favoriteFilmsCount}} элементов</span> &nbsp; -->
-			<!-- <button mat-raised-button (click)="directUpdateChildren()">Один Дочерний компонент</button> &nbsp;
-			<button mat-raised-button (click)="directUpdateAllChildren()">Все Дочерние компоненты</button> -->
-			<!-- <button mat-raised-button (click)="count()">++</button> -->
 			<span class="example-spacer"></span>
 			<div>
 				<app-search (searchEmitter)="doSearch($event)"></app-search>
 			</div>
 			<span class="example-spacer"></span>
-
-			<!-- <searchAPI (searchEmitter)="doSearch($event)"> </searchAPI> -->
-
-			<!-- <div>
-				<mat-form-field>
-					<mat-select placeholder="Фильмы/Актеры" [(ngModel)]="sortOption" (selectionChange)="choseWhatToShow()" (selectionChange)="counter = 1">
-						<mat-option *ngFor="let option of sortOptions" [value]="option.value">
-							{{option.description}}
-						</mat-option>
-					</mat-select>
-				</mat-form-field>
-			</div> -->
 		</mat-toolbar-row>
 	</mat-toolbar>
 </mat-card>
 
 <!-- пагинатор -->
 
-<div class="paginator">
-	<paginator [totalPages]="pageInfo.totalPages" (pagEmitter)="doPagination($event)">
+<!-- <div class="paginator">
+	<paginator [totalResults]="pageInfo.totalResults" (pagEmitter)="doPagination($event)">
 	</paginator>
-</div>
+</div> -->
 
 
 <!-- прогресс-бар -->
@@ -51,12 +37,17 @@
 	</mat-grid-tile>
 </mat-grid-list>
 
+<div class="paginator">
+	<paginator [totalResults]="pageInfo.totalResults" [page]="pageInfo.currentPage" (pagEmitter)="doPagination($event)">
+	</paginator>
+</div>
+
 <!-- кнопка загрузки дополнительных фильмов -->
-<div class="main-container">
+<!-- <div class="main-container">
 	<div class="fixer-container">
 		<button mat-raised-button color="primary" [disabled]="searching" (click)="setNextPage()">Загрузить еще</button>
 	</div>
-</div>
+</div> -->
 
 
 <!-- 

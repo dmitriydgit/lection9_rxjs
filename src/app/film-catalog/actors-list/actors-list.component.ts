@@ -53,7 +53,7 @@ export class ActorsListComponent implements OnInit {
 
 	ngOnInit() {
 		this.startLoading();
-		this.getData(this.counter, this.dataCategory);
+		this.getData(this.pageInfo.currentPage, this.dataCategory);
 	}
 
 	getData(page: number, dataCategory: string) {
@@ -74,6 +74,41 @@ export class ActorsListComponent implements OnInit {
 		this.items = [...results]
 	}
 
+
+
+	doSearch(searchString: string, dataCategory: string) {
+		console.log(searchString);
+		if (searchString.length > 2) {
+			this.isSearching = true;
+			this.searchString = searchString;
+			this.pageInfo.currentPage = 1;
+			this.getSearchData();
+		} else {
+			this.isSearching = false;
+			this.getData(this.pageCounter, this.dataCategory);
+		}
+	}
+
+	getSearchData() {
+		this.filmsService.searchData(this.searchString, this.dataCategory, this.pageInfo.currentPage)
+			.subscribe(
+				(filmList: any) => {
+					this.saveData(filmList.page, filmList.total_pages, filmList.total_results, filmList.results);
+					//this.getFavarites();
+					//this.getBookmarks();
+				})
+	}
+
+	doPagination(value) {
+		console.log(value)
+		this.updatePageData(value);
+		this.isSearching ? this.getSearchData() : this.getData(this.pageInfo.currentPage, this.dataCategory);
+	}
+
+	updatePageData(value) {
+		this.pageInfo.currentPage = value.pageIndex + 1;
+	}
+
 	count() {
 		this.counter++;
 	}
@@ -84,11 +119,7 @@ export class ActorsListComponent implements OnInit {
 		this.choseWhatToShow();
 	}
 
-
-	doPagination(value) {
-		this.counter = value.pageIndex + 1;
-		this.choseWhatToShow();
-	}
+	//{previousPageIndex: 0, pageIndex: 1, pageSize: 20, length: 934}
 
 
 	startLoading() {

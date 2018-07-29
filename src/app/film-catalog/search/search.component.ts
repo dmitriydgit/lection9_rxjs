@@ -16,7 +16,7 @@ export class SearchComponent implements OnInit {
 	ngOnInit() {
 	}
 
-	searchFilms() {
+	search() {
 		this.searchEmitter.emit(this.value)
 	}
 

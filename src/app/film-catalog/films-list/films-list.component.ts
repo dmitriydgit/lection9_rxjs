@@ -46,7 +46,6 @@ export class FilmsListComponent implements OnInit {
 
 
 	constructor(
-		@Inject(DEFAULT_SETTINGS) private settings: any,
 		public filmsService: FilmService,
 		public bookAndFavService: BookAndFavService,
 		public progress: NgProgress
@@ -55,16 +54,15 @@ export class FilmsListComponent implements OnInit {
 
 	ngOnInit() {
 		this.startLoading();
-		setTimeout(() => {
-			this.getData(this.pageCounter, this.dataCategory);
-		}, 1000);
-	} s
+		this.getData(this.pageInfo.currentPage, this.dataCategory);
+	}
 
 
 	getData(page: number, dataCategory: string) {
 		this.filmsService.getDataFromApi(page, dataCategory).subscribe(
 			(dataList: any) => {
 				this.finishLoading();
+				console.log(dataList);
 				this.saveData(dataList.page, dataList.total_pages, dataList.total_results, dataList.results);
 				this.getFavarites();
 				this.getBookmarks();
@@ -74,30 +72,14 @@ export class FilmsListComponent implements OnInit {
 			})
 	}
 
-
+	//{ page: 1, total_results: 19974, total_pages: 999, results: Array(20) }
 	saveData(curPage, totalPages, totalRes, results) {
 		this.pageInfo.currentPage = curPage;
 		this.pageInfo.totalPages = totalPages;
-		this.pageInfo.totalResults = totalRes
+		this.pageInfo.totalResults = totalRes;
+		this.items = [];
 		this.items = [...results];
 	}
-	// getData(page: number, dataCategory: string) {
-	// 	this.filmsService.getDataFromApi(page, dataCategory).subscribe(
-	// 		(filmList: any) => {
-	// 			this.finishLoading()
-	// 			this.items = [...filmList.results];
-
-	// 			//console.log(filmList);
-
-	// 			this.saveFilmData(filmList.page, filmList.total_pages, filmList.total_results);
-	// 			this.searchingArray = [...filmList.results];
-	// 			this.getFavarites();
-	// 			this.getBookmarks();
-	// 		},
-	// 		err => {
-	// 			console.log("error");
-	// 		})
-	// }
 
 
 
@@ -139,15 +121,13 @@ export class FilmsListComponent implements OnInit {
 	}
 
 
-
-
-
-
-	doSearch(searchString: string, dataCategory: string, ) {
-		console.log(searchString);
+	doSearch(searchString: string) {
+		//console.log(searchString);
 		if (searchString.length > 2) {
 			this.isSearching = true;
 			this.searchString = searchString;
+			//console.log(this.pageInfo)
+			//this.pageInfo.currentPage = 1;
 			this.getSearchData();
 		} else {
 			this.isSearching = false;
@@ -158,11 +138,9 @@ export class FilmsListComponent implements OnInit {
 	getSearchData() {
 		this.filmsService.searchData(this.searchString, this.dataCategory, this.pageInfo.currentPage)
 			.subscribe(
-				(filmList: any) => {
-					console.log(filmList);
-					this.items = [] = [...filmList.results];
-					//this.searchingArray = [...filmList.results];
-					this.saveFilmData(filmList.page, filmList.total_pages, filmList.total_results);
+				(dataList: any) => {
+					this.saveData(dataList.page, dataList.total_pages, dataList.total_results, dataList.results);
+					//console.log(this.pageInfo);
 					this.getFavarites();
 					this.getBookmarks();
 				})
@@ -171,36 +149,30 @@ export class FilmsListComponent implements OnInit {
 
 
 
-
-
-
-
-
-
 	doPagination(value) {
-		//let page =  (value.pageIndex) ? value.pageIndex : value.page;
-		console.log(value);
-		console.log(this.pageInfo);
-		this.pageInfo.currentPage;
-		//console.log(value);
-		//this.pageCounter = value.pageIndex + 1;
-		//this.pageCounter = (this.isSearching) ? value.page : value.pageIndex + 1;
-		this.goNextPage();
+		console.log(value)
+		this.updatePageData(value);
+		//console.log(this.pageInfo)
+		this.isSearching ? this.getSearchData() : this.getData(this.pageInfo.currentPage, this.dataCategory);
 	}
 
-	goNextPage() {
-		this.items = [];
-		this.isSearching ? this.getSearchData() : this.getData(this.pageCounter, this.dataCategory);
+	updatePageData(value) {
+		this.pageInfo.currentPage = value.pageIndex + 1;
 	}
 
-	count() {
-		this.pageCounter++;
-	}
+	// goNextPage() {
+	// 	this.items = [];
+	// 	this.isSearching ? this.getSearchData() : this.getData(this.pageCounter, this.dataCategory);
+	// }
 
-	setNextPage() {
-		this.pageCounter++;
-		this.getData(this.pageCounter, this.dataCategory);
-	}
+	// count() {
+	// 	this.pageCounter++;
+	// }
+
+	// setNextPage() {
+	// 	this.pageCounter++;
+	// 	this.getData(this.pageCounter, this.dataCategory);
+	// }
 
 
 	startLoading() {
@@ -213,6 +185,25 @@ export class FilmsListComponent implements OnInit {
 		this.progress.done();
 	}
 
+
+
+	// getData(page: number, dataCategory: string) {
+	// 	this.filmsService.getDataFromApi(page, dataCategory).subscribe(
+	// 		(filmList: any) => {
+	// 			this.finishLoading()
+	// 			this.items = [...filmList.results];
+
+	// 			//console.log(filmList);
+
+	// 			this.saveFilmData(filmList.page, filmList.total_pages, filmList.total_results);
+	// 			this.searchingArray = [...filmList.results];
+	// 			this.getFavarites();
+	// 			this.getBookmarks();
+	// 		},
+	// 		err => {
+	// 			console.log("error");
+	// 		})
+	// }
 
 
 	// doSearch(searchString) {

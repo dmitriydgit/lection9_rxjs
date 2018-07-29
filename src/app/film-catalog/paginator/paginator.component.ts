@@ -7,11 +7,14 @@ import { PageEvent } from '@angular/material';
 	styleUrls: ['./paginator.component.css']
 })
 export class PaginatorComponent implements OnInit {
-	@Input() totalPages: string;
+	@Input() totalResults: string;
+	@Input() page: number;
+
 	@Output() pagEmitter: EventEmitter<any> = new EventEmitter();
-	length = this.totalPages;
+	length = this.totalResults;
 	pageSize = 20;
 	pageSizeOptions: number[] = [20];
+	//pageIndex = this.page;
 
 
 	// MatPaginator Output
@@ -25,10 +28,7 @@ export class PaginatorComponent implements OnInit {
 
 	setPageSizeOptions() {
 		console.log(this.pageEvent)
-		console.log(this.pageEvent)
-		//console.log(this.totalPages)
 		this.pagEmitter.emit(this.pageEvent);
-		//this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
 	}
 
 }

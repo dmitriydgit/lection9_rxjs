@@ -32,13 +32,13 @@ export class FilmService {
 	) { }
 
 	getDataFromApi(page: number, dataCategory: string) {
-		console.log(this.settings)
+		//	console.log(this.settings)
 		return dataCategory === "films" ? this.http.get(`${this.movieUrl}/popular?page=${page}${this.paramsFilms}`) : this.http.get(`${this.personUrl}/popular?page=${page}${this.paramsActors}`)
 
 	}
 
 	searchData(srchStr: string, dataCategory: string, page: number) {
-		console.log("searching")
+		//console.log("searching")
 		return dataCategory === "films" ? this.http.get(`${this.searchUrl}/movie${this.paramsFilmsSearch}&query=${srchStr}&page=${page}`) : this.http.get(`${this.searchUrl}/person${this.paramsFilmsSearch}&query=${srchStr}&page=${page}`)
 	}
 
