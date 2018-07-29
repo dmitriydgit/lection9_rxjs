@@ -8,7 +8,7 @@ import { pluck, map, findIndex, filter, defaultIfEmpty, tap, take } from 'rxjs/o
 
 
 @Component({
-	selector: 'app-searchAPI',
+	selector: 'searchAPI',
 	templateUrl: './searchAPI.component.html',
 	styleUrls: ['./searchAPI.component.css']
 })
@@ -22,6 +22,8 @@ export class SearchAPIComponent implements OnInit {
 	searchString: string;
 	searching: boolean = false;
 	sortOption: any = 'Films';
+	dataCategory: any = "films"
+	pageCounter: number = 1;
 	user: User = {
 		login: 'ddd@gmail.com',
 		password: '12345678'
@@ -43,7 +45,7 @@ export class SearchAPIComponent implements OnInit {
 		if (searchString.length > 2) {
 			console.log(this.sortOption)
 			if (this.sortOption === 'Films') {
-				this.filmsService.searchFilms(searchString)
+				this.filmsService.searchData(searchString, this.dataCategory, this.pageCounter)
 					.subscribe(
 						(filmList: any) => {
 							this.items = [...filmList.results];

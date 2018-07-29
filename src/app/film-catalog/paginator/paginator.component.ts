@@ -25,7 +25,8 @@ export class PaginatorComponent implements OnInit {
 
 	setPageSizeOptions() {
 		console.log(this.pageEvent)
-		console.log(this.totalPages)
+		console.log(this.pageEvent)
+		//console.log(this.totalPages)
 		this.pagEmitter.emit(this.pageEvent);
 		//this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
 	}

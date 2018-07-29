@@ -1,45 +1,45 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Film } from '../film';
 import { SortOption } from '../sort-option';
 import { HttpClient } from '@angular/common/http';
+import { DEFAULT_SETTINGS } from './config';
 
 
 @Injectable({
 	providedIn: 'root'
 })
 export class FilmService {
-	apiUrl: string = "https://api.themoviedb.org/3"
-	apiKey: string = '0994e7679a856150aadcecf7de489bce'
-	apiKeyAct: string = '434343434'
-	movieUrl: string = `${this.apiUrl}/movie`
-	searchUrl: string = `${this.apiUrl}/search`
-	personUrl: string = `${this.apiUrl}/person`
-	paramsFilms: string = `&api_key=${this.apiKey}&language=ru-RU`
-	paramsActors: string = `&api_key=${this.apiKey}&language=ru-RU`
-	paramsFilmsSearch: string = `?api_key=${this.apiKey}&language=ru-RU`
+	// apiUrl: string = "https://api.themoviedb.org/3"
+	// apiKey: string = '0994e7679a856150aadcecf7de489bce'
+	// apiKeyAct: string = '434343434'
+	movieUrl: string = `${this.settings.APIs.apiUrl}/movie`
+	searchUrl: string = `${this.settings.APIs.apiUrl}/search`
+	personUrl: string = `${this.settings.APIs.apiUrl}/person`
+	paramsFilms: string = `&api_key=${this.settings.APIs.apiKey}&language=ru-RU`
+	paramsActors: string = `&api_key=${this.settings.APIs.apiKey}&language=ru-RU`
+	paramsFilmsSearch: string = `?api_key=${this.settings.APIs.apiKey}&language=ru-RU`
 
-	imgPath: string = 'https://image.tmdb.org/t/p'
-	midImgPath: string = `${this.imgPath}/w500`
-	smallImgPath: string = `${this.imgPath}/w185`
-	bigBackPath: string = `${this.imgPath}/w1280`
-	midBackPath: string = `${this.imgPath}/w780`
-	smallBackPath: string = `${this.imgPath}/w300`
+	// imgPath: string = 'https://image.tmdb.org/t/p'
+	midImgPath: string = `${this.settings.APIs.imgPath}/w500`
+	smallImgPath: string = `${this.settings.APIs.imgPath}/w185`
+	bigBackPath: string = `${this.settings.APIs.imgPath}/w1280`
+	midBackPath: string = `${this.settings.APIs.imgPath}/w780`
+	smallBackPath: string = `${this.settings.APIs.imgPath}/w300`
 
 	constructor(
-		private http: HttpClient
+		@Inject(DEFAULT_SETTINGS) private settings: any,
+		private http: HttpClient,
 	) { }
 
-	getPopularFilms(page?: number) {
-		return this.http.get(`${this.movieUrl}/popular?page=${page}${this.paramsFilms}`)
+	getDataFromApi(page: number, dataCategory: string) {
+		console.log(this.settings)
+		return dataCategory === "films" ? this.http.get(`${this.movieUrl}/popular?page=${page}${this.paramsFilms}`) : this.http.get(`${this.personUrl}/popular?page=${page}${this.paramsActors}`)
+
 	}
 
-	getPopularActors(page?: number) {
-		return this.http.get(`${this.personUrl}/popular?page=${page}${this.paramsActors}`)
-	}
-
-	searchFilms(srchStr: string) {
+	searchData(srchStr: string, dataCategory: string, page: number) {
 		console.log("searching")
-		return this.http.get(`${this.searchUrl}/movie${this.paramsFilmsSearch}&query=${srchStr}`)
+		return dataCategory === "films" ? this.http.get(`${this.searchUrl}/movie${this.paramsFilmsSearch}&query=${srchStr}&page=${page}`) : this.http.get(`${this.searchUrl}/person${this.paramsFilmsSearch}&query=${srchStr}&page=${page}`)
 	}
 
 	searchActors(srchStr: string) {

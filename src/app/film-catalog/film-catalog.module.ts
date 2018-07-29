@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MainComponent } from './main/main.component';
 import { FilmsListComponent } from './films-list/films-list.component';
+import { ActorsListComponent } from './actors-list/actors-list.component';
 import { SearchAPIComponent } from './searchByAPI/searchAPI.component';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -53,6 +54,7 @@ import { PaginatorComponent } from './paginator/paginator.component';
 	declarations: [
 		MainComponent,
 		FilmsListComponent,
+		ActorsListComponent,
 		FilmItemComponent,
 		ActorItemComponent,
 		SearchComponent,

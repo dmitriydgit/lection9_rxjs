@@ -7,7 +7,6 @@ import { SortOption } from '../../sort-option';
 import { FilmItemComponent } from '../film-item/film-item.component';
 import { ActorItemComponent } from '../actor-item/actor-item.component';
 import { SearchComponent } from '../search/search.component';
-import { SearchAPIComponent } from '../searchByAPI/searchAPI.component';
 import { NgProgress } from 'ngx-progressbar';
 import { DEFAULT_SETTINGS } from '../config';
 
@@ -15,19 +14,19 @@ import { DEFAULT_SETTINGS } from '../config';
 
 
 @Component({
-	selector: '.films',
-	templateUrl: './films-list.component.html',
-	styleUrls: ['./films-list.component.css']
+	selector: '.actors',
+	templateUrl: './actors-list.component.html',
+	styleUrls: ['./actors-list.component.css']
 })
-export class FilmsListComponent implements OnInit {
+export class ActorsListComponent implements OnInit {
 	[x: string]: any;
 	user: User = {
 		login: 'ddd@gmail.com',
 		password: '12345678'
 	};
 	items: any;
-	sortOption: any = 'Films';
-	pageCounter: number = 1;
+	sortOption: any = 'Actors';
+	counter: number = 1;
 	favoriteFilmsCount: number = 0;
 	outerFilms: any;
 	imgPath: string = this.filmsService.midImgPath;
@@ -35,7 +34,7 @@ export class FilmsListComponent implements OnInit {
 	searching: boolean = false;
 	searchingArray: any;
 	loading: boolean = false;
-	dataCategory: string = "films"
+	dataCategory: string = "actors"
 
 	pageInfo = {
 		currentPage: 1,
@@ -46,7 +45,6 @@ export class FilmsListComponent implements OnInit {
 
 
 	constructor(
-		@Inject(DEFAULT_SETTINGS) private settings: any,
 		public filmsService: FilmService,
 		public bookAndFavService: BookAndFavService,
 		public progress: NgProgress
@@ -55,151 +53,41 @@ export class FilmsListComponent implements OnInit {
 
 	ngOnInit() {
 		this.startLoading();
-		setTimeout(() => {
-			this.getData(this.pageCounter, this.dataCategory);
-		}, 1000);
-	} s
-
+		this.getData(this.counter, this.dataCategory);
+	}
 
 	getData(page: number, dataCategory: string) {
 		this.filmsService.getDataFromApi(page, dataCategory).subscribe(
 			(dataList: any) => {
 				this.finishLoading();
 				this.saveData(dataList.page, dataList.total_pages, dataList.total_results, dataList.results);
-				this.getFavarites();
-				this.getBookmarks();
 			},
 			err => {
 				console.log("error");
 			})
 	}
 
-
 	saveData(curPage, totalPages, totalRes, results) {
 		this.pageInfo.currentPage = curPage;
 		this.pageInfo.totalPages = totalPages;
-		this.pageInfo.totalResults = totalRes
-		this.items = [...results];
-	}
-	// getData(page: number, dataCategory: string) {
-	// 	this.filmsService.getDataFromApi(page, dataCategory).subscribe(
-	// 		(filmList: any) => {
-	// 			this.finishLoading()
-	// 			this.items = [...filmList.results];
-
-	// 			//console.log(filmList);
-
-	// 			this.saveFilmData(filmList.page, filmList.total_pages, filmList.total_results);
-	// 			this.searchingArray = [...filmList.results];
-	// 			this.getFavarites();
-	// 			this.getBookmarks();
-	// 		},
-	// 		err => {
-	// 			console.log("error");
-	// 		})
-	// }
-
-
-
-	getFavarites() {
-		this.bookAndFavService.getFavorites(this.items.map(item => item.id)).subscribe(
-			(favorites: any) => {
-				let favoriteList = favorites.map(favorite => favorite._id);
-				this.items.forEach(film => {
-					film.isFavorite = favoriteList.indexOf(film.id) > -1;
-				})
-			},
-			err => {
-				console.log("Favorits request error")
-			})
-	}
-
-	getBookmarks() {
-		this.bookAndFavService.getBookmarks(this.items.map(item => item.id)).subscribe(
-			(bookmarks: any) => {
-				let bookmarksList = bookmarks.map(bookmark => bookmark._id);
-				this.items.forEach(film => {
-					film.isBookmark = bookmarksList.indexOf(film.id) > -1;
-				})
-			},
-			err => {
-				console.log("Bookmarks equest error")
-			})
-	}
-
-
-	makeFavorite(film: Film) {
-		film.isFavorite = !film.isFavorite;
-		film.isFavorite ? this.bookAndFavService.addFilmToFavorite(film.id, this.user.login) : this.bookAndFavService.removeFromFavorite(film.id);
-	}
-
-	makeBookmark(film: Film) {
-		film.isBookmark = !film.isBookmark;
-		film.isBookmark ? this.bookAndFavService.addFilmToBookmark(film.id, this.user.login) : this.bookAndFavService.removeFromBookmark(film.id);
-	}
-
-
-
-
-
-
-	doSearch(searchString: string, dataCategory: string, ) {
-		console.log(searchString);
-		if (searchString.length > 2) {
-			this.isSearching = true;
-			this.searchString = searchString;
-			this.getSearchData();
-		} else {
-			this.isSearching = false;
-			this.getData(this.pageCounter, this.dataCategory);
-		}
-	}
-
-	getSearchData() {
-		this.filmsService.searchData(this.searchString, this.dataCategory, this.pageInfo.currentPage)
-			.subscribe(
-				(filmList: any) => {
-					console.log(filmList);
-					this.items = [] = [...filmList.results];
-					//this.searchingArray = [...filmList.results];
-					this.saveFilmData(filmList.page, filmList.total_pages, filmList.total_results);
-					this.getFavarites();
-					this.getBookmarks();
-				})
-	}
-
-
-
-
-
-
-
-
-
-
-	doPagination(value) {
-		//let page =  (value.pageIndex) ? value.pageIndex : value.page;
-		console.log(value);
-		console.log(this.pageInfo);
-		this.pageInfo.currentPage;
-		//console.log(value);
-		//this.pageCounter = value.pageIndex + 1;
-		//this.pageCounter = (this.isSearching) ? value.page : value.pageIndex + 1;
-		this.goNextPage();
-	}
-
-	goNextPage() {
-		this.items = [];
-		this.isSearching ? this.getSearchData() : this.getData(this.pageCounter, this.dataCategory);
+		this.pageInfo.totalResults = totalRes;
+		this.items = [...results]
 	}
 
 	count() {
-		this.pageCounter++;
+		this.counter++;
 	}
 
+
 	setNextPage() {
-		this.pageCounter++;
-		this.getData(this.pageCounter, this.dataCategory);
+		this.counter++;
+		this.choseWhatToShow();
+	}
+
+
+	doPagination(value) {
+		this.counter = value.pageIndex + 1;
+		this.choseWhatToShow();
 	}
 
 
@@ -214,6 +102,55 @@ export class FilmsListComponent implements OnInit {
 	}
 
 
+
+
+
+
+	// updateFavorites() {
+	// 	let favoriteFilms = this.items.filter(item => item.isFavorite);
+	// 	this.favoriteFilmsCount = favoriteFilms.length;
+	// }
+
+	// choseWhatToShow() {
+	// 	//console.log(this.sortOption)
+	// 	if (this.sortOption === "Films") {
+	// 		this.items = [];
+	// 		//this.counter = 1;
+	// 		this.loading = true;
+	// 		this.progress.start();
+	// 		setTimeout(() => {
+	// 			this.getFilms(this.counter);
+	// 		}, 1000);
+	// 	}
+	// 	if (this.sortOption === "Actors") {
+	// 		this.items = [];
+	// 		//this.counter = 1;
+	// 		this.loading = true;
+	// 		this.progress.start();
+	// 		setTimeout(() => {
+	// 			this.getActors(this.counter);
+	// 		}, 1000);
+	// 	}
+	// }
+
+	// makeFavorite(film: Film) {
+	// 	film.isFavorite = !film.isFavorite;
+	// 	if (film.isFavorite) {
+	// 		this.bookAndFavService.addFilmToFavorite(film.id, this.user.login);
+	// 	} else {
+	// 		this.bookAndFavService.removeFromFavorite(film.id);
+	// 	}
+	// 	this.updateFavorites();
+	// }
+
+	// makeBookmark(film: Film) {
+	// 	film.isBookmark = !film.isBookmark;
+	// 	if (film.isBookmark) {
+	// 		this.bookAndFavService.addFilmToBookmark(film.id, this.user.login);
+	// 	} else {
+	// 		this.bookAndFavService.removeFromBookmark(film.id);
+	// 	}
+	// }
 
 	// doSearch(searchString) {
 	// 	this.searching = false;
@@ -245,15 +182,37 @@ export class FilmsListComponent implements OnInit {
 	// 		})
 	// }
 
-	// updateFavorites() {
-	// 	let favoriteFilms = this.items.filter(item => item.isFavorite);
-	// 	this.favoriteFilmsCount = favoriteFilms.length;
+	// getFavarites() {
+	// 	this.bookAndFavService.getFavorites(this.items.map(item => item.id)).subscribe(
+	// 		(favorites: any) => {
+	// 			let favoriteList = favorites.map(favorite => favorite._id);
+	// 			this.items.forEach(film => {
+	// 				film.isFavorite = favoriteList.indexOf(film.id) > -1;
+	// 			})
+	// 			this.updateFavorites();
+	// 		},
+	// 		err => {
+	// 			console.log("Favorits request error")
+	// 		})
 	// }
 
+	// getBookmarks() {
+	// 	this.bookAndFavService.getBookmarks(this.items.map(item => item.id)).subscribe(
+	// 		(bookmarks: any) => {
+	// 			let bookmarksList = bookmarks.map(bookmark => bookmark._id);
+	// 			this.items.forEach(film => {
+	// 				film.isBookmark = bookmarksList.indexOf(film.id) > -1;
+	// 			})
+	// 		},
+	// 		err => {
+	// 			console.log("Bookmarks equest error")
+	// 		})
+	// }
 
 	// @ViewChild(FilmItemComponent) filmItem: FilmItemComponent;
 
 	// @ViewChildren(FilmItemComponent) films: QueryList<FilmItemComponent>;
+
 
 	// makeStar(film: Film) {
 	// 	film.isFavorite = !film.isFavorite;
